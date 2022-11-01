@@ -1,0 +1,26 @@
+name: 'Install Octave (Windows)'
+description: 'Install GNU Octave on Windows'
+author: 'Ray Zimmerman'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install GNU Octave
+      run: |
+        choco install octave
+        echo "/c/Program Files/GNU Octave/Octave-7.2.0/mingw64/bin" >> $GITHUB_PATH
+        echo "ML_NAME=Octave" >> $GITHUB_ENV
+        echo "ML_CMD=octave-cli.exe --no-gui --eval" >> $GITHUB_ENV
+        echo "ML_PATHVAR=OCTAVE_PATH" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set OCTAVE_VER, ML_VER
+      run: |
+        export OCTAVE_VER=`$ML_CMD "fprintf('%s', ver('octave').Version)"`
+        echo "OCTAVE_VER=${OCTAVE_VER}" >> $GITHUB_ENV
+        echo "ML_VER=${OCTAVE_VER}" >> $GITHUB_ENV
+      shell: bash
+
+branding:
+  icon: 'zap'
+  color: 'yellow'
